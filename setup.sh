@@ -1,21 +1,10 @@
 #!/bin/bash
 
-set -x
+set -xe
 
-apt-get install -y wget gpg apt-transport-https
-wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
-install -D -o root -g root -m 644 microsoft.gpg /usr/share/keyrings/microsoft.gpg
-rm -f microsoft.gpg
+apt-get install -y curl tar
 
-cat > /etc/apt/sources.list.d/vscode.sources<< EOF
-Types: deb
-URIs: https://packages.microsoft.com/repos/code
-Suites: stable
-Components: main
-Architectures: amd64,arm64,armhf
-Signed-By: /usr/share/keyrings/microsoft.gpg
-EOF
+curl -Lk 'https://code.visualstudio.com/sha/download?build=stable&os=cli-alpine-x64' --output vscode_cli.tar.gz
 
-apt-get update
-apt-get install -y code # or code-insiders
+tar -xf vscode_cli.tar.gz
 

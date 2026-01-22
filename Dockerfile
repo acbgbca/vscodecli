@@ -13,6 +13,6 @@ RUN --mount=type=cache,target=/var/cache/apt \
     chmod +x setup.sh && ./setup.sh
 
 # Default command (can be changed as needed)
-ENTRYPOINT [ "code" ]
+ENTRYPOINT [ "./code" ]
 
-CMD [ "serve-web" ]
+CMD [ "serve-web", "--host", "0.0.0.0", "--accept-server-license-terms" ]
