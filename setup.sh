@@ -1,0 +1,21 @@
+#!/bin/bash
+
+set -x
+
+apt-get install -y wget gpg apt-transport-https
+wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
+install -D -o root -g root -m 644 microsoft.gpg /usr/share/keyrings/microsoft.gpg
+rm -f microsoft.gpg
+
+cat > /etc/apt/sources.list.d/vscode.sources<< EOF
+Types: deb
+URIs: https://packages.microsoft.com/repos/code
+Suites: stable
+Components: main
+Architectures: amd64,arm64,armhf
+Signed-By: /usr/share/keyrings/microsoft.gpg
+EOF
+
+apt-get update
+apt-get install -y code # or code-insiders
+
